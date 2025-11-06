@@ -1,12 +1,10 @@
-# cloudsql.tf - Single Cloud SQL PostgreSQL instance (public IP for now), database, and user
-
 resource "google_sql_database_instance" "postgres" {
   name             = "products-db-instance"
   database_version = "POSTGRES_15"
   region           = var.region
 
   settings {
-    tier = "db-f1-micro"  # small instance for learning/dev
+    tier = "db-f1-micro"  
 
     ip_configuration {
       ipv4_enabled = true
@@ -16,7 +14,6 @@ resource "google_sql_database_instance" "postgres" {
         value = "49.43.110.176/32" 
       }
 
-      # keep require_ssl true for better security (warning is OK)
       require_ssl = true
     }
 

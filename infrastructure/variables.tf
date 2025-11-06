@@ -9,11 +9,11 @@ variable "gcp_project_id" {
 variable "region" {
   description = "The GCP region for the Cloud SQL and GKE services"
   type        = string
-  default     = "us-central1" # A standard, reliable region
+  default     = "us-central1" 
 }
 
 variable "db_password" {
   description = "The secure password for the PostgreSQL root user"
   type        = string
-  sensitive   = true # Terraform will mask this in the output
+  sensitive   = true 
 }
