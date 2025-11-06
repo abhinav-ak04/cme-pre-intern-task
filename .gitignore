@@ -1,0 +1,15 @@
+# Node.js dependencies
+node_modules/
+.env
+
+# Terraform artifacts
+infrastructure/.terraform/
+infrastructure/*.tfstate
+infrastructure/*.tfstate.backup
+infrastructure/*.tfplan
+
+# Logs and misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store

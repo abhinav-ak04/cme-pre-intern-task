@@ -1,0 +1,33 @@
+# networking.tf - VPC, Subnet, reserved range, and service networking connection
+
+# 1) Create a VPC (Virtual Private Cloud)
+resource "google_compute_network" "vpc" {
+  name                    = "cme-preintern-vpc"
+  auto_create_subnetworks = false   # we want to create subnets manually
+  routing_mode            = "GLOBAL"
+}
+
+# 2) Create a subnet in the chosen region
+resource "google_compute_subnetwork" "subnet" {
+  name                     = "cme-preintern-subnet"
+  ip_cidr_range            = "10.10.0.0/16"   # CIDR for the subnet (private IP range)
+  region                   = var.region
+  network                  = google_compute_network.vpc.id
+  private_ip_google_access = true    # allows instances in this subnet to reach Google APIs privately
+}
+
+# 3) Reserve a global internal IP range to use for service networking (private service access)
+resource "google_compute_global_address" "private_ip_range" {
+  name          = "cme-preintern-private-range"
+  project       = var.gcp_project_id
+  address_type  = "INTERNAL"
+  purpose       = "VPC_PEERING"
+  prefix_length = 16
+}
+
+# 4) Create the service networking connection that allows Cloud SQL to use the reserved IP range
+resource "google_service_networking_connection" "private_vpc_connection" {
+  network                 = google_compute_network.vpc.self_link
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_ip_range.name]
+}
