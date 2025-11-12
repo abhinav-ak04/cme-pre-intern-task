@@ -7,9 +7,11 @@ infrastructure/.terraform/
 infrastructure/*.tfstate
 infrastructure/*.tfstate.backup
 infrastructure/*.tfplan
+infrastructure/*.json
 
 # Logs and misc
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .DS_Store
+infrastructure/*.json
