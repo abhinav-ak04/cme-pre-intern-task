@@ -64,3 +64,29 @@ jobs:
       - name: Wait for rollout
         run: |
           kubectl rollout status deployment/product-api-deployment --timeout=120s
+
+  post-deploy-tests:
+    name: Post-deploy integration tests
+    runs-on: ubuntu-latest
+    needs: build-push-deploy
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+          project_id: ${{ env.GCP_PROJECT }}
+
+      - name: Make test script executable
+        run: chmod +x ci/check_api.sh
+
+      - name: Run API smoke tests
+        run: ci/check_api.sh
