@@ -20,20 +20,24 @@ jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
     steps:
+      # Fetch repo into runner
       - name: Checkout repository
         uses: actions/checkout@v4
 
+        # Authenticate the runner
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+          # Install gcloud on runner
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ env.GCP_PROJECT }}
           export_default_credentials: true
 
+        # For docker push
       - name: Configure Docker for GCR
         run: |
           gcloud auth configure-docker --quiet
@@ -85,8 +89,14 @@ jobs:
           location: ${{ env.GKE_ZONE }}
           project_id: ${{ env.GCP_PROJECT }}
 
-      - name: Make test script executable
-        run: chmod +x ci/check_api.sh
+      # - name: Make test script executable
+      #   run: chmod +x ci/check_api.sh
 
-      - name: Run API smoke tests
-        run: ci/check_api.sh
+      # - name: Run API smoke tests
+      #   run: ci/check_api.sh
+
+      - name: Install test dependencies
+        run: npm install
+
+      - name: Run Jest integration tests
+        run: npm test

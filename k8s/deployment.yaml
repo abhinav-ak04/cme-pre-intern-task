@@ -55,7 +55,6 @@ spec:
             periodSeconds: 10
         - name: cloud-sql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.37.2
-          # Make proxy non-privileged; it only needs to open a local port.
           securityContext:
             runAsNonRoot: true
             allowPrivilegeEscalation: false
