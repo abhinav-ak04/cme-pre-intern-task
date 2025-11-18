@@ -17,7 +17,7 @@ spec:
       containers:
         - name: product-api
           image: gcr.io/cme-pre-intern/product-api:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8000
