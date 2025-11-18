@@ -25,6 +25,9 @@ app.use((req, res, next) => {
     const end = process.hrtime.bigint();
     const durationMs = Number(end - start) / 1e6; // convert ns → ms
 
+    // DEBUG: force something obvious into logs
+    console.log('DEBUG_HTTP_LOG', req.method, req.path, res.statusCode);
+
     logger.info(
       {
         event: 'http_request_completed',
