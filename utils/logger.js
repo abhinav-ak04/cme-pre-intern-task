@@ -1,21 +1,14 @@
+// utils/logger.js
 import pino from 'pino';
 
-const isDev = process.env.NODE_ENV !== 'production';
-
-// In prod: raw JSON logs (best for Cloud Logging)
-// In dev: pretty print so it's readable in your terminal
 const logger = pino({
   level: process.env.LOG_LEVEL || 'info',
-  ...(isDev && {
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        colorize: true,
-        translateTime: 'SYS:standard',
-        ignore: 'pid,hostname',
-      },
-    },
-  }),
+
+  base: undefined,
+
+  messageKey: 'msg',
+
+  timestamp: pino.stdTimeFunctions.isoTime,
 });
 
 export default logger;
