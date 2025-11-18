@@ -57,4 +57,4 @@ app.listen(PORT, () => {
   connectDB();
 });
 
-export default app; // optional, but nice if ever needed for tests
+export default app;
