@@ -47,6 +47,29 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 
+// Simple HTTP request logger middleware
+app.use((req, res, next) => {
+  const start = process.hrtime.bigint();
+
+  res.on('finish', () => {
+    const end = process.hrtime.bigint();
+    const durationMs = Number(end - start) / 1e6; // convert ns → ms
+
+    logger.info(
+      {
+        msg: 'http_request_completed',
+        method: req.method,
+        path: req.path,
+        status: res.statusCode,
+        duration_ms: durationMs,
+      },
+      'Handled HTTP request'
+    );
+  });
+
+  next();
+});
+
 // Simple request log (optional, but nice)
 app.use((req, res, next) => {
   logger.info({ method: req.method, path: req.path }, 'Incoming request');
