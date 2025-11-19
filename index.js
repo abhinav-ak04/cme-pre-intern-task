@@ -9,13 +9,17 @@ import express from 'express';
 import { connectDB } from './db/connect.js';
 import productRoutes from './routes/products.js';
 import logger from './utils/logger.js';
+import requireApiKey from './utils/apiKeyAuth.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const API_KEYS = (process.env.API_KEYS || '').split(',').filter(Boolean);
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+
+app.use(requireApiKey({ allowedKeys: API_KEYS }));
 
 // Simple HTTP request logger middleware
 app.use((req, res, next) => {

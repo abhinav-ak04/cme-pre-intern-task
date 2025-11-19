@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: cloudsql-db-secret
                   key: DB_PASS
+            - name: API_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-secret
+                  key: API_KEY
           readinessProbe:
             httpGet:
               path: /
