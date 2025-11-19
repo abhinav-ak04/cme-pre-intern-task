@@ -39,6 +39,7 @@ describe('Product API integration (live GKE + Cloud SQL)', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': process.env.API_KEY || '',
       },
       body: JSON.stringify(newProductPayload),
     });
@@ -76,6 +77,7 @@ describe('Product API integration (live GKE + Cloud SQL)', () => {
 
     const deleteRes = await fetch(`${baseUrl}/products/${createdProductId}`, {
       method: 'DELETE',
+      headers: { 'x-api-key': process.env.API_KEY || '' },
     });
 
     // Even if delete fails, don't throw too hard
