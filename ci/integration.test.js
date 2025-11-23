@@ -1,9 +1,5 @@
-// Integration test: POST /products -> GET /products/:id -> DELETE /products/:id
-// Hits the real deployed API on GKE and Cloud SQL.
-
 const { execSync } = require('child_process');
 
-// Helper: get LoadBalancer IP from Kubernetes via kubectl
 function getLoadBalancerIp() {
   const cmd =
     "kubectl get svc product-api-lb -n default -o jsonpath='{.status.loadBalancer.ingress[0].ip}'";

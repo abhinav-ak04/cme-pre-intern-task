@@ -10,5 +10,5 @@ spec:
     app: product-api
   ports:
     - protocol: TCP
-      port: 80 # external port (public)
-      targetPort: 8000 # container port where app listens
+      port: 80
+      targetPort: 8000

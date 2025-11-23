@@ -38,7 +38,7 @@ jobs:
           export_default_credentials: true
 
         # For docker push
-      - name: Configure Docker for GCR
+      - name: Configure Docker for Artifact Registry
         run: |
           gcloud auth configure-docker --quiet
 
@@ -46,7 +46,7 @@ jobs:
         run: |
           docker build -t $IMAGE:latest .
 
-      - name: Push image to GCR
+      - name: Push image to Artifact Registry
         run: |
           docker push $IMAGE:latest
 
@@ -61,7 +61,7 @@ jobs:
         run: |
           kubectl set image deployment/product-api-deployment product-api=$IMAGE:latest --namespace=default
 
-      - name: Apply manifests (in case of first deploy or config change)
+      - name: Apply manifests
         run: |
           kubectl apply -f ${{ env.K8S_MANIFEST_DIR }}
 
@@ -90,12 +90,6 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
           project_id: ${{ env.GCP_PROJECT }}
-
-      # - name: Make test script executable
-      #   run: chmod +x ci/check_api.sh
-
-      # - name: Run API smoke tests
-      #   run: ci/check_api.sh
 
       - name: Install test dependencies
         run: npm install

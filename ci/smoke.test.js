@@ -1,9 +1,6 @@
-// Simple smoke test: checks that the root endpoint (/) of the API returns HTTP 200.
-
 const { execSync } = require('child_process');
 
-// Optional: bump Jest timeout for slow cloud calls (default is 5s)
-jest.setTimeout(120000); // 2 minutes
+jest.setTimeout(120000);
 
 function getLoadBalancerIp() {
   const cmd =
