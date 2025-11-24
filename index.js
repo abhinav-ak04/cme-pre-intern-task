@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get('/', (req, res) => res.send('API is working fine 👍'));
+app.get('/', (req, res) => res.send('OK 👍'));
 
 app.use('/products', productRoutes);
 
